@@ -1,0 +1,43 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "疫情实时动态"
+			}
+		}
+	    ,{
+            "path" : "pages/map/map",
+            "style" : {
+				"navigationBarTitleText": "疫情地图"
+			}
+        }
+        ,{
+            "path" : "pages/news/news",
+            "style" : {
+				"navigationBarTitleText": "疫情新闻"
+			}
+        }
+    ],
+	"tabBar":{
+		"list":[
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/map/map",
+				"text": "地图"
+			},{
+				"pagePath": "pages/news/news",
+				"text": "新闻"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "NCP_news",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}
