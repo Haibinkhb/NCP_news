@@ -1,13 +1,7 @@
 <template>
 	<view class="cities">
-		<view class="title">
-			<text class="area-bg">地区</text>
-			<text class="confirmed-bg">确诊</text>
-			<text class="cured-bg">治愈</text>
-			<text class="dead-bg">死亡</text>
-		</view>
-		<view class="city" v-for="city in cities" :key="city.locationId">
-			<text class="area">{{city.cityName}}</text>
+		<view class="city" v-for="(city, index) in cities" :key="index">
+			<text :class="[showMore?'padding-left':'', 'area']">{{city.cityName}}</text>
 			<text class="confirmed">{{city.confirmedCount}}</text>
 			<text class="cured">{{city.curedCount}}</text>
 			<text class="dead">{{city.deadCount}}</text>
@@ -16,31 +10,32 @@
 </template>
 
 <script>
+	
 	export default {
 		props: {
 			cities: {
 				type: Array,
 				require: true
-			}
+			},
+			showMore:Boolean
 		},
 		data() {
 			return {
 
 			};
 		}
-		// watch:{
-		// 	cities(){
-		// 		this.cities = [{cityName:'sdad'}]
-		// 	}
-		// }
 	}
 </script>
 
 <style lang="scss">
+	.padding-left{
+		margin-left: $uni-spacing-row-base;
+		box-sizing: border-box;
+	}
 	.cities {
 		display: flex;
 		flex-direction: column;
-		background-color: #f7f7f7;
+		background-color: #fff;
 	}
 
 	.cities .title {

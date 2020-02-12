@@ -10,11 +10,13 @@
 			<!--#endif-->
 		</view>
 		<mapLegen :mapColor="mapColor"></mapLegen>
+		<areaTitle></areaTitle>
 		<cities :cities="cities"></cities>
 	</view>
 </template>
 
 <script>
+	import areaTitle from '@/components/common/area-title.vue'
 	// 城市详细数据组件（公用）
 	import cities from '@/components/common/cities.vue'
 	// 地图图例组件
@@ -95,7 +97,9 @@
 			// 请求全国各省市疫情数据
 			getArea(area) {
 				uni.request({
+						// url:`http://localhost:3000/api/${area}`, //本地服务器数据，方便模拟
 						url: `${this.BaseUrl}${area}`,
+						
 						data: {
 							latest: 1
 						},
@@ -200,7 +204,8 @@
 		},
 		components:{
 			cities,
-			mapLegen
+			mapLegen,
+			areaTitle
 		}
 	}
 </script>
