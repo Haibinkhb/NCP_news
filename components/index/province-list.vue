@@ -59,6 +59,7 @@
 		font-size: $uni-font-size-base;
 		text-align: center;
 		background-color: #f7f7f7;
+		
 	}
 
 	.area-item {

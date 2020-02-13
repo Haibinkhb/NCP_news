@@ -25,13 +25,13 @@
 		data() {
 			return {
 				currentIndex: 0, // 当前展示的趋势图
-				imageHeight:0 // 图片默认高度
+				imageHeight:240 // 图片默认高度
 			};
 		},
 		mounted() {
 			setTimeout(() => {
 				this.getImageSize() // 异步获取图片高度（直接获取会失败）
-			}, 200)
+			}, 500)
 		},
 		methods: {
 			currentChange(e){
@@ -57,12 +57,14 @@
 <style lang="scss">
 	.daily-pics {
 		background-color: #fff;
-		padding: 0 $uni-spacing-row-base;
+		margin: 0 $uni-spacing-row-base;
 	}
 
 	.trend-swiper {
-		padding: 0 $uni-spacing-row-base;
-
+		background-color: #fff;
+		margin: 0 $uni-spacing-row-base;
+		box-shadow: 0 0 5rpx 0 $uni-text-color-grey;
+		border-radius: $uni-border-radius-lg;
 	}
 
 	.swiper-image {

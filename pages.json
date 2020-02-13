@@ -17,13 +17,18 @@
             "style" : {
 				"navigationBarTitleText": "疫情新闻"
 			}
-        }
+        },{
+			"path":"pages/navigate/navigate",
+			"style":{
+				"navigationStyle":"custom"
+			}
+		}
     ],
 	"tabBar":{
 		"list":[
 			{
 				"pagePath": "pages/index/index",
-				"text": "首页"
+				"text": "动态"
 			},
 			{
 				"pagePath": "pages/map/map",

@@ -6,10 +6,12 @@
 		<view class="chart-title">湖北/非湖北疫情趋势图</view>
 		<trendChart :trendChart="overall.hbFeiHbTrendChart"></trendChart>
 		<provinceList :area="area"></provinceList>
+		<footerDesc class='footerDesc'></footerDesc>
 	</scroll-view>
 </template>
 
 <script>
+	import footerDesc from "@/components/footer-desc.vue"
 	import OverallInfo from "@/components/index/Overall-info.vue" // OverallInfo 组件负责展示疫情信息
 	import trendChart from "@/components/index/trendChart.vue" // trendChart 组件负责展示疫情趋势图
 	import provinceList from "@/components/index/province-list.vue"
@@ -24,7 +26,8 @@
 		components: {
 			OverallInfo,
 			trendChart,
-			provinceList
+			provinceList,
+			footerDesc
 		},
 		onLoad() {
 			// 获取全国最新总体疫情信息
@@ -33,10 +36,10 @@
 		},
 		methods: {
 			// 请求全国各省市疫情数据
-			getArea(area) {
+			getArea(params) {
 				uni.request({
-						// url: `http://localhost:3000/api/${area}`, // 本地服务器方便模拟
-						url: `${this.BaseUrl}${area}`,
+						//url: `${this.LocalUrl}${params}`, // 本地服务器方便模拟
+						url: `${this.BaseUrl}${params}`,
 						data: {
 							latest: 1
 						},
@@ -61,14 +64,14 @@
 						console.log(error)
 					})
 			},
-			getOverall(overall) {
+			getOverall(params) {
 				// 获取全国最新总体疫情信息
 				uni.request({
-						// url: `${this.BaseUrl}${overall}`,
-						url: `http://localhost:3000/api/${overall}`,
-						// data: {
-						// 	latest: 1
-						// },
+						// url: `${this.LocalUrl}${params}`,  // 本地服务器方便模拟
+						url: `${this.BaseUrl}${params}`,
+						data: {
+							latest: 1
+						},
 						timeout: 100000000,
 					})
 					.then(data => { //data为一个数组，数组第一项为错误信息，第二项为返回数据
@@ -84,16 +87,18 @@
 
 <style lang="scss">
 	.content {
-		background-color: $uni-bg-color-grey;
+		background-color: #fff;
 	}
 
 	.chart-title {
 		font-size: $uni-font-size-lg;
 		background-color: $uni-bg-color-grey;
 		margin: $uni-spacing-col-lg 0;
-		padding: 0 $uni-spacing-col-base;
+		padding: $uni-spacing-col-base $uni-spacing-col-base;
 		font-weight: bolder;
 	}
-
+.footerDesc{
+	padding: 0 $uni-img-size-sm;
+}
 	
 </style>

@@ -6,16 +6,18 @@
 			 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchMap"></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasMap" id="canvasMap" class="charts" @touchstart="touchMap" ></canvas>
+			<canvas canvas-id="canvasMap" id="canvasMap" class="charts" @click="touchMap" @touchstart="touchMap" ></canvas>
 			<!--#endif-->
 		</view>
 		<mapLegen :mapColor="mapColor"></mapLegen>
 		<areaTitle></areaTitle>
 		<cities :cities="cities"></cities>
+		<footerDesc></footerDesc>
 	</view>
 </template>
 
 <script>
+	import footerDesc from "@/components/footer-desc.vue"
 	import areaTitle from '@/components/common/area-title.vue'
 	// 城市详细数据组件（公用）
 	import cities from '@/components/common/cities.vue'
@@ -53,9 +55,12 @@
 					}, {
 						color: '#fdebcf',
 						range: '1 - 9'
+					},{
+						color: '#ffffff',
+						range: '0'
 					}],
+					// uCharts 绘制地图所需的一部分数据
 				cWidth: '',
-				// uCharts 绘制地图所需的一部分数据
 				cHeight: '',
 				pixelRatio: 1,
 				textarea: '',
@@ -67,16 +72,17 @@
 			// uni.authorize({
 			// 	scope: 'scope.userLocation',
 			// 	    success() {
-				        uni.getLocation({
-							success(res){
-								if(res.address){
-									this.location = res.address.province
-								}
-							}
-						})
+			// 	        uni.getLocation({
+			// 				success(res){
+			// 					if(res.address){
+			// 						this.location = res.address.province
+			// 					}
+			// 				}
+			// 			})
 			// 	    }
 			// })
-			this.getArea('area') // 请求全国各省市疫情数据
+			// 请求全国各省市疫情数据
+			this.getArea('area') 
 			// uCharts map 组件的部分参数
 			_self = this;
 			//#ifdef MP-ALIPAY
@@ -95,11 +101,10 @@
 		},
 		methods: {
 			// 请求全国各省市疫情数据
-			getArea(area) {
+			getArea(params) {
 				uni.request({
-						// url:`http://localhost:3000/api/${area}`, //本地服务器数据，方便模拟
-						url: `${this.BaseUrl}${area}`,
-						
+						// url: `${this.LocalUrl}${params}`, //本地服务器数据，方便模拟
+						url: `${this.BaseUrl}${params}`,
 						data: {
 							latest: 1
 						},
@@ -170,15 +175,12 @@
 						}
 					},
 					color: _self.mapColor,
-					background: '#FFFFFF',
+					background: '#F7F7F7',
 					pixelRatio: _self.pixelRatio,
 					series: chartData.series,
 					dataLabel: true,
 					width: _self.cWidth * _self.pixelRatio,
 					height: _self.cHeight * _self.pixelRatio,
-					title: {
-						name: '疫情地图'
-					},
 					extra: {
 						map: {
 							border: true,
@@ -205,7 +207,8 @@
 		components:{
 			cities,
 			mapLegen,
-			areaTitle
+			areaTitle,
+			footerDesc
 		}
 	}
 </script>
@@ -213,21 +216,24 @@
 <style lang="scss">
 	.qiun-columns {
 		padding: 0 $uni-spacing-row-lg;
+		box-sizing: border-box;
 		position: relative;
+		background-color: #F7F7F7;
+		
 	}
 
 	/*样式的width和height一定要与定义的cWidth和cHeight相对应*/
 	.qiun-charts {
 		width: 690upx;
 		height: 750upx;
-		background-color: #FFFFFF;
+		background-color: #F7F7F7;
 
 	}
 
 	.charts {
 		width: 750upx;
 		height: 750upx;
-		background-color: #FFFFFF;
+		background-color: #F7F7F7;
 	}
 	
 </style>
