@@ -8,6 +8,7 @@
 					<text v-else class="right-arrows-opactiy"></text>
 					<text>{{item.provinceShortName}}</text>
 				</view>
+				<text class="number current-confirmed">{{item.confirmedCount - item.curedCount - item.deadCount}}</text>
 				<text class="number confirmed">{{item.confirmedCount}}</text>
 				<text class="number cured">{{item.curedCount}}</text>
 				<text class="number dead">{{item.deadCount}}</text>
@@ -61,7 +62,7 @@
 		background-color: #f7f7f7;
 		
 	}
-
+	
 	.area-item {
 		display: flex;
 		justify-content: space-around;
@@ -92,14 +93,16 @@
 	.provinceTotal .dead {
 		color: #5d7092;
 	}
-
+	.provinceTotal .current-confirmed{
+		color: #ae212c;
+	}
 	.right-arrows {
-		width: 20rpx;
-		height: 20rpx;
+		width: 10rpx;
+		height: 10rpx;
 		border-top: 1px solid #c3c8d6;
 		border-right: 1px solid #c3c8d6;
 		transform: rotate(45deg);
-		margin: 0 $uni-font-size-base;
+		margin: 0 $uni-spacing-col-base;
 	}
 
 	.arrow-current {
@@ -108,8 +111,8 @@
 
 	.right-arrows-opactiy {
 		opacity: 0;
-		width: 20rpx;
-		height: 20rpx;
-		margin: 0 $uni-font-size-base;
+		width: 10rpx;
+		height: 10rpx;
+		margin: 0 $uni-spacing-col-base;
 	}
 </style>

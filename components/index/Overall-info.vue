@@ -6,14 +6,14 @@
 		</view>
 		<view class="overall-details">
 			<view class="count">
-				<text class="desc">累计确诊</text>
-				<text class="total current-confirmed">{{overall.confirmedCount}}</text>
-				<text class="compare">较昨日<text class="current-confirmed">{{overall.confirmedIncr | compare}}</text></text>
-			</view>
-			<view class="count">
 				<text class="desc">现存确诊</text>
 				<text class="total confirmed">{{overall.currentConfirmedCount}}</text>
 				<text class="compare">较昨日<text class="confirmed">{{overall.currentConfirmedIncr | compare}}</text></text>
+			</view>
+			<view class="count">
+				<text class="desc">累计确诊</text>
+				<text class="total current-confirmed">{{overall.confirmedCount}}</text>
+				<text class="compare">较昨日<text class="current-confirmed">{{overall.confirmedIncr | compare}}</text></text>
 			</view>
 			<view class="count">
 				<text class="desc">现存疑似</text>

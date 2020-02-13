@@ -3,6 +3,7 @@
 		<view class="city" v-for="(city, index) in cities" :key="index">
 			<text :class="[showMore?'padding-left':'', 'area']">{{city.cityName}}</text>
 			<text class="confirmed">{{city.confirmedCount}}</text>
+			<text class="current-confirmed">{{city.currentConfirmedCount}}</text>
 			<text class="cured">{{city.curedCount}}</text>
 			<text class="dead">{{city.deadCount}}</text>
 		</view>
@@ -10,14 +11,13 @@
 </template>
 
 <script>
-	
 	export default {
 		props: {
 			cities: {
 				type: Array,
 				require: true
 			},
-			showMore:Boolean
+			showMore: Boolean
 		},
 		data() {
 			return {
@@ -28,10 +28,11 @@
 </script>
 
 <style lang="scss">
-	.padding-left{
+	.padding-left {
 		margin-left: $uni-spacing-row-base;
 		box-sizing: border-box;
 	}
+
 	.cities {
 		display: flex;
 		flex-direction: column;
@@ -82,6 +83,10 @@
 
 	.area {
 		color: $uni-text-color;
+	}
+
+	.current-confirmed {
+		color: #ae212c;
 	}
 
 	.confirmed {
