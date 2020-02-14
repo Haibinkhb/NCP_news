@@ -6,7 +6,7 @@
 			 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchMap"></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasMap" id="canvasMap" class="charts" @click="touchMap" @touchstart="touchMap" ></canvas>
+			<canvas canvas-id="canvasMap" id="canvasMap" class="charts" @click="touchMap" @touchstart="touchMap"></canvas>
 			<!--#endif-->
 		</view>
 		<mapLegen :mapColor="mapColor"></mapLegen>
@@ -27,105 +27,85 @@
 	import uCharts from '@/components/u-charts/u-charts/u-charts.js'
 	// 渲染地图所需的中国地图 json 数据
 	const chinaMap = require('@/static/json/chinaMap.json')
-	let _self;
-	let canvaMap = null;
+	var _self;
+	var canvaMap = null;
 	export default {
 		data() {
 			return {
 				// 存放全国疫情数据
 				area: [],
 				// 存放各省内的疫情数据
-				cities:[],
+				cities: [],
 				// 疫情地图背景颜色
 				mapColor: [{
-						color: '#4f070d',
-						range: '> 10000'
-					},{
-						color: '#811c24',
-						range: '1000 - 10000',
-					},{
-						color: '#cb2a2f',
-						range: '500 - 999'
-					},{
-						color: '#e55a4e',
-						range: '100 - 499'
-					},{
-						color: '#f59e83',
-						range: '10 - 99'
-					}, {
-						color: '#fdebcf',
-						range: '1 - 9'
-					},{
-						color: '#ffffff',
-						range: '0'
-					}],
-					// uCharts 绘制地图所需的一部分数据
+					color: '#4f070d',
+					range: '> 10000'
+				}, {
+					color: '#811c24',
+					range: '1000 - 10000',
+				}, {
+					color: '#cb2a2f',
+					range: '500 - 999'
+				}, {
+					color: '#e55a4e',
+					range: '100 - 499'
+				}, {
+					color: '#f59e83',
+					range: '10 - 99'
+				}, {
+					color: '#fdebcf',
+					range: '1 - 9'
+				}, {
+					color: '#ffffff',
+					range: '0'
+				}],
+				// uCharts 绘制地图所需的一部分数据
 				cWidth: '',
 				cHeight: '',
 				pixelRatio: 1,
 				textarea: '',
-				location:''
+				location: '',
+
 			}
 		},
 		onLoad() {
-			// 向用户请求定位权限
-			// uni.authorize({
-			// 	scope: 'scope.userLocation',
-			// 	    success() {
-			// 	        uni.getLocation({
-			// 				success(res){
-			// 					if(res.address){
-			// 						this.location = res.address.province
-			// 					}
-			// 				}
-			// 			})
-			// 	    }
-			// })
-			// 请求全国各省市疫情数据
-			this.getArea('area') 
+			_self = this
 			// uCharts map 组件的部分参数
-			_self = this;
 			//#ifdef MP-ALIPAY
 			uni.getSystemInfo({
-				success: function(res) {
+				success: (res) => {
 					if (res.pixelRatio > 1) {
 						//正常这里给2就行，如果pixelRatio=3性能会降低一点
-						//_self.pixelRatio =res.pixelRatio;
-						_self.pixelRatio = 2;
+						// _self.pixelRatio = res.pixelRatio;
+						_self.pixelRatio = 3;
 					}
 				}
 			});
 			//#endif
 			this.cWidth = uni.upx2px(690); // 减去左右 padding 后应为690rpx
 			this.cHeight = uni.upx2px(750);
+			// 请求全国各省市疫情数据
+			this.getArea()
 		},
 		methods: {
 			// 请求全国各省市疫情数据
-			getArea(params) {
+			getArea() {
 				uni.request({
-						// url: `${this.LocalUrl}${params}`, //本地服务器数据，方便模拟
-						url: `${this.BaseUrl}${params}`,
-						data: {
-							latest: 1
-						},
-						timeout: 10000000
-					})
-					.then(data => { //data为一个数组，数组第一项为错误信息，第二项为返回数据
-						const [error, res] = data;
-						res.data.results.forEach(item => {
-							if (item.country === '中国') {
-								// 保存全国的疫情数据
-								this.area.push(item)
-								// 保存湖北省的数据
-								if(item.provinceShortName === '湖北'){
-									this.cities = item.cities
-								}
+					url: 'http://haibinkhb.com:3001/api/area'
+				}).then(data => {
+					const [error, res] = data
+					res.data.results.forEach(item => {
+						if (item.country === '中国') {
+							// 保存全国的疫情数据
+							this.area.push(item)
+							// 保存湖北省的数据
+							if (item.provinceShortName === '湖北') {
+								this.cities = item.cities
 							}
-						})
-						this.getServerData();
-					}).catch(error => {
-						console.log(error)
+						}
 					})
+					this.getServerData();
+				})
 			},
 			// 准备数据用来初始化 uCharts 地图组件
 			getServerData() {
@@ -133,7 +113,7 @@
 					series: []
 				};
 				cMap.series = chinaMap.features;
-				cMap.series.forEach((item, index) => {
+				cMap.series.forEach(item => {
 					// 去除省、市、自治区等后缀
 					item.properties.name = item.properties.name.replace(/省|市|自治区|特别行政区|壮族|回族|维吾尔/g, '')
 					this.area.forEach(city => {
@@ -144,7 +124,7 @@
 							// 保存省内个市的疫情数据
 							item.cities = city.cities
 							// 如果已经获取到地址，则显示当前地址的疫情数据，否则显示湖北省的疫情数据
-							this.cities =  this.lcoation && city.provinceName === this.location ? city.cities : this.cities
+							this.cities = this.lcoation && city.provinceName === this.location ? city.cities : this.cities
 							// 根据各地区确诊人数修改地图背景颜色
 							if (item.confirmedCount >= 0 && item.confirmedCount < 10) item.color = this.mapColor[5].color
 							if (item.confirmedCount >= 10 && item.confirmedCount < 99) item.color = this.mapColor[4].color
@@ -154,7 +134,6 @@
 							if (item.confirmedCount >= 10000) item.color = this.mapColor[0].color
 						}
 					})
-
 				})
 				_self.showMap("canvasMap", cMap);
 			},
@@ -166,15 +145,6 @@
 					type: 'map',
 					fontSize: 11,
 					padding: [10, 10, 10, 10],
-					legend: {
-						show: true,
-						position: "left",
-						float: 'bottom',
-						format: () => {
-							return 'abcd'
-						}
-					},
-					color: _self.mapColor,
 					background: '#F7F7F7',
 					pixelRatio: _self.pixelRatio,
 					series: chartData.series,
@@ -204,7 +174,7 @@
 				});
 			}
 		},
-		components:{
+		components: {
 			cities,
 			mapLegen,
 			areaTitle,
@@ -219,7 +189,6 @@
 		box-sizing: border-box;
 		position: relative;
 		background-color: #F7F7F7;
-		
 	}
 
 	/*样式的width和height一定要与定义的cWidth和cHeight相对应*/
@@ -227,7 +196,6 @@
 		width: 690upx;
 		height: 750upx;
 		background-color: #F7F7F7;
-
 	}
 
 	.charts {
@@ -235,5 +203,4 @@
 		height: 750upx;
 		background-color: #F7F7F7;
 	}
-	
 </style>

@@ -1,8 +1,9 @@
 <template>
 	<view class="daily-pics">
-		<swiper class="trend-swiper" v-bind:style="{ height: imageHeight + 'px' }"  @change="currentChange" :current="currentIndex" :circular="true">
-			<swiper-item  class="swiper-item" v-for="(trend, index) in trendChart" :key="index">
-				<image class="swiper-image" :src="trend.imgUrl" mode="widthFix" ></image>
+		<swiper class="trend-swiper" v-bind:style="{ height: imageHeight + 'px' }" @change="currentChange" :current="currentIndex"
+		 :circular="true">
+			<swiper-item class="swiper-item" v-for="(trend, index) in trendChart" :key="index">
+				<image class="swiper-image" :src="trend.imgUrl" mode="widthFix" :lazy-load="true"></image>
 			</swiper-item>
 		</swiper>
 		<view class="trend-title">
@@ -25,7 +26,7 @@
 		data() {
 			return {
 				currentIndex: 0, // 当前展示的趋势图
-				imageHeight:240 // 图片默认高度
+				imageHeight: 180 // 图片默认高度
 			};
 		},
 		mounted() {
@@ -34,7 +35,7 @@
 			}, 500)
 		},
 		methods: {
-			currentChange(e){
+			currentChange(e) {
 				// current 改变时修改title文字样式
 				this.currentIndex = e.detail.current
 			},
@@ -45,9 +46,13 @@
 			getImageSize() {
 				// 动态获取图片高度，并给 swiper 组件赋值； swiper 组件默认高度为150 无法完整显示内容
 				uni.createSelectorQuery()
-				.select('.swiper-image')
+					.select('.swiper-image')
 					.boundingClientRect(res => {
-						this.imageHeight = res.height
+						if (res.height) {
+							this.imageHeight = res.height
+						} else {
+							this.getImageSize()
+						}
 					}).exec()
 			}
 		}
@@ -88,6 +93,6 @@
 	.trend-title .current {
 		color: $uni-color-primary;
 		background-color: #f1f5ff;
-		
+
 	}
 </style>

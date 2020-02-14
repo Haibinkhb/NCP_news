@@ -20,7 +20,7 @@
 			return {
 				overall: {}, // 存放全国最新总体疫情信息
 				area: [],
-				showMore :false
+				showMore: false
 			}
 		},
 		components: {
@@ -30,24 +30,18 @@
 			footerDesc
 		},
 		onLoad() {
-			// 获取全国最新总体疫情信息
-			this.getOverall('overall')
-			this.getArea('area')
+			this.getArea()
+			this.getOverall()
 		},
 		methods: {
-			// 请求全国各省市疫情数据
-			getArea(params) {
+			// 从缓存中获取全国最新总体疫情信息
+			getArea() {
 				uni.request({
-						//url: `${this.LocalUrl}${params}`, // 本地服务器方便模拟
-						url: `${this.BaseUrl}${params}`,
-						data: {
-							latest: 1
-						},
-						timeout: 10000000
-					})
-					.then(data => { //data为一个数组，数组第一项为错误信息，第二项为返回数据
-						const [error, res] = data;
-						let id = 100
+					url: 'http://haibinkhb.com:3001/api/area'
+				}).then(data => {
+					const [error, res] = data
+					let id = 1
+					if (res.data.success) {
 						res.data.results.forEach(item => {
 							if (item.country === '中国') {
 								item.id = id++ // 为每一项增加 id 方便循环
@@ -55,31 +49,22 @@
 								// 保存全国的疫情数据
 								this.area.push(item)
 								// 按确诊数排序
-								this.area.sort(function(a, b){
+								this.area.sort(function(a, b) {
 									return b.confirmedCount - a.confirmedCount
 								})
 							}
 						})
-					}).catch(error => {
-						console.log(error)
-					})
+					}
+				})
 			},
-			getOverall(params) {
-				// 获取全国最新总体疫情信息
+			// 从缓存中获取全国各省市疫情数据
+			getOverall() {
 				uni.request({
-						// url: `${this.LocalUrl}${params}`,  // 本地服务器方便模拟
-						url: `${this.BaseUrl}${params}`,
-						data: {
-							latest: 1
-						},
-						timeout: 100000000,
-					})
-					.then(data => { //data为一个数组，数组第一项为错误信息，第二项为返回数据
-						const [error, res] = data;
-						this.overall = res.data.results[0]
-					}).catch(error => {
-						console.log(error)
-					})
+					url: 'http://haibinkhb.com:3001/api/overall'
+				}).then(data => {
+					const [error, res] = data
+					this.overall = res.data.results[0]
+				})
 			},
 		}
 	}
@@ -97,8 +82,8 @@
 		padding: $uni-spacing-col-base $uni-spacing-col-base;
 		font-weight: bolder;
 	}
-.footerDesc{
-	padding: 0 $uni-img-size-sm;
-}
-	
+
+	.footerDesc {
+		padding: 0 $uni-img-size-sm;
+	}
 </style>

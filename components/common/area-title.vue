@@ -41,16 +41,16 @@
 	}
 
 	.confirmed-bg {
-		background-color: #f74c31;
+		background-color: #f3bab0;
 	}
 	.current-confirmed-bg{
-		background-color: #ae212c;
+		background-color: #e69a8d;
 	}
 	.cured-bg {
-		background-color: #28b7a3;
+		background-color: #95db9a;
 	}
 
 	.dead-bg {
-		background-color: #5d7092;
+		background-color: #b4c0d5;
 	}
 </style>

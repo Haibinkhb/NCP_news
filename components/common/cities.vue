@@ -2,8 +2,8 @@
 	<view class="cities">
 		<view class="city" v-for="(city, index) in cities" :key="index">
 			<text :class="[showMore?'padding-left':'', 'area']">{{city.cityName}}</text>
-			<text class="confirmed">{{city.confirmedCount}}</text>
-			<text class="current-confirmed">{{city.currentConfirmedCount}}</text>
+			<text class="confirmed">{{city.currentConfirmedCount}}</text>
+			<text class="current-confirmed">{{city.confirmedCount}}</text>
 			<text class="cured">{{city.curedCount}}</text>
 			<text class="dead">{{city.deadCount}}</text>
 		</view>

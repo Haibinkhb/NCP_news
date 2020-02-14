@@ -81,6 +81,7 @@
                 "enable" : true
             }
         },
-        "domain" : "https://haibinkhb.github.io/"
+        "domain" : "https://haibinkhb.github.io/",
+        "title" : "疫情实时动态"
     }
 }
