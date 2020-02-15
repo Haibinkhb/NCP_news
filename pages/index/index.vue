@@ -37,7 +37,7 @@
 			// 从缓存中获取全国最新总体疫情信息
 			getArea() {
 				uni.request({
-					url: 'http://haibinkhb.com:3001/api/area'
+					url: 'https://api.haibinkhb.com/api/area'
 				}).then(data => {
 					const [error, res] = data
 					let id = 1
@@ -60,7 +60,7 @@
 			// 从缓存中获取全国各省市疫情数据
 			getOverall() {
 				uni.request({
-					url: 'http://haibinkhb.com:3001/api/overall'
+					url: 'https://api.haibinkhb.com/api/overall'
 				}).then(data => {
 					const [error, res] = data
 					this.overall = res.data.results[0]

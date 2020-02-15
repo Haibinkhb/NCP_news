@@ -91,7 +91,7 @@
 			// 请求全国各省市疫情数据
 			getArea() {
 				uni.request({
-					url: 'http://haibinkhb.com:3001/api/area'
+					url: 'https://api.haibinkhb.com/api/area'
 				}).then(data => {
 					const [error, res] = data
 					res.data.results.forEach(item => {

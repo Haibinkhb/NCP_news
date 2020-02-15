@@ -32,7 +32,7 @@
 		mounted() {
 			setTimeout(() => {
 				this.getImageSize() // 异步获取图片高度（直接获取会失败）
-			}, 500)
+			}, 1000)
 		},
 		methods: {
 			currentChange(e) {

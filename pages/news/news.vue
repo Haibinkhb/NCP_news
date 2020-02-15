@@ -4,7 +4,7 @@
 			<view class="bg-box"></view>
 			<text>实时播报</text>
 		</view>
-		<view class="news" v-for="item in news" :key="item.pubDate + item.provinceId">
+		<view class="news" v-for="(item, index) in news" :key="index">
 			<view class="time-line">
 				<text class="time-diff">{{item.pubDate | capitalize}}</text>
 				<text class="update-time">{{item.pubDate | updateTime}}</text>
@@ -69,7 +69,7 @@
 			// 从缓存中获取全国各省市疫情数据
 			getNews(params) {
 				uni.request({
-					url: 'http://haibinkhb.com:3001/api/news'
+					url: 'https://api.haibinkhb.com/api/news'
 				}).then(data => {
 					const [error, res] = data
 					
